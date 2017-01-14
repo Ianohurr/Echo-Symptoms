@@ -2,87 +2,70 @@ var https = require('https')
 
 exports.handler = (event, context) => {
 
-  try {
+try {
 
-    if (event.session.new) {
-      // New Session
-      console.log("NEW SESSION")
-    }
+if (event.session.new) {
+  // New Session
+  console.log("NEW SESSION")
+}
 
-    switch (event.request.type) {
+switch (event.request.type) {
 
-      case "LaunchRequest":
-        // Launch Request
-        console.log(`LAUNCH REQUEST`)
-        context.succeed (
-            generateResponse(
-                buildSpeechletResponse("Okay. Let's try and figure out what's going on. I'm going to go through some popular symptoms, and you can answer yes if you have that symptom, or no if you don't. Are you experiencing any chills?", false),
-                {}
-                )
-                )
-        break;
-        
-      case "IntentRequest":
-        // Intent Request
-        console.log(`INTENT REQUEST`)
-        switch(event.request.intent.name) {
-         //Yes to chills
-         case "yes":
-            context.succeed(
-                  generateResponse(
-                    buildSpeechletResponse("So you have the chills.", false),
-                    {}
-                  )
-)
-            break;
-        //No to chills
-        case "no":
-            context.succeed(
-                  generateResponse(
-                    buildSpeechletResponse("So you don't have the chills.", false),
-                    {}
-                  )
-)
-            break;
-        
-            
-        }
-        break;
+  case "LaunchRequest":
+    // Launch Request
+    console.log(`LAUNCH REQUEST`)
+    context.succeed (generateResponse(buildSpeechletResponse("Okay. Let's try and figure out what's going on. I'm going to go through some popular symptoms, and you can answer yes if you have that symptom, or no if you don't. Are you experiencing any chills?", false),{}))
+    break;
     
-
-      case "SessionEndedRequest":
-        // Session Ended Request
-        console.log(`SESSION ENDED REQUEST`)
+  case "IntentRequest":
+    // Intent Request
+    console.log(`INTENT REQUEST`)
+    switch(event.request.intent.name) {
+    //Yes to chills
+        case "yes":
+        context.succeed(generateResponse(buildSpeechletResponse("Do you have nas", false),{}))
         break;
+    //No to chills
+        case "no":
+        context.succeed(generateResponse(buildSpeechletResponse("So you don't have the chills.", false),{}))
+        break;
+        }
+    break;
 
-      default:
-        context.fail(`INVALID REQUEST TYPE: ${event.request.type}`)
 
-    }
+  case "SessionEndedRequest":
+    // Session Ended Request
+    console.log(`SESSION ENDED REQUEST`)
+    break;
 
-  } catch(error) { context.fail(`Exception: ${error}`) }
+  default:
+    context.fail(`INVALID REQUEST TYPE: ${event.request.type}`)
+
+}
+
+} catch(error) { context.fail(`Exception: ${error}`) }
 
 }
 
 // Helpers
 buildSpeechletResponse = (outputText, shouldEndSession) => {
 
-  return {
-    outputSpeech: {
-      type: "PlainText",
-      text: outputText
-    },
-    shouldEndSession: shouldEndSession
-  }
+return {
+outputSpeech: {
+  type: "PlainText",
+  text: outputText
+},
+shouldEndSession: shouldEndSession
+}
 
 }
 
 generateResponse = (speechletResponse, sessionAttributes) => {
 
-  return {
-    version: "1.0",
-    sessionAttributes: sessionAttributes,
-    response: speechletResponse
-  }
+return {
+version: "1.0",
+sessionAttributes: sessionAttributes,
+response: speechletResponse
+}
 
 }

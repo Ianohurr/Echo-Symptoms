@@ -14,26 +14,28 @@ exports.handler = (event, context) => {
       case "LaunchRequest":
         // Launch Request
         console.log(`LAUNCH REQUEST`)
-        context.succeed(
-          generateResponse(
-            buildSpeechletResponse("What are some of your symptoms? Please list one at a time", true),
-            {}
-          )
-        )
+        context.succeed (
+            generateResponse(
+                buildSpeechletResponse("What are some of your symptoms", false),
+                {}
+                )
+                )
         break;
-
+        
       case "IntentRequest":
         // Intent Request
         console.log(`INTENT REQUEST`)
-        
         switch(event.request.intent.name) {
-            case "headPain":
-                generateResponse(
-                    buildSpeechletResponse(`It sounds like your might have a concussion`, true),
+         case "headPain":
+            context.succeed(
+                  generateResponse(
+                    buildSpeechletResponse("You may have a concussion", false),
                     {}
-                    )
+                  )
+)
         }
         break;
+    
 
       case "SessionEndedRequest":
         // Session Ended Request

@@ -1,3 +1,4 @@
+
 var https = require('https')
 
 exports.handler = (event, context) => {
@@ -20,15 +21,20 @@ switch (event.request.type) {
   case "IntentRequest":
     // Intent Request
     console.log(`INTENT REQUEST`)
-    switch(event.request.intent.name) {
+    if(event.request.intent.name==="yes") {
     //Yes to chills
-        case "yes":
-        context.succeed(generateResponse(buildSpeechletResponse("Do you have nas", false),{}))
-        break;
+        context.succeed(generateResponse(buildSpeechletResponse("Do you have nausea", false),{}))
+            if(event.request.intent.name==="yes") {
+                context.succeed(generateResponse(buildSpeechletResponse("You have nausea", false),{}))
+            }
+            else {
+                context.succeed(generateResponse(buildSpeechletResponse("You do not have nausea", false),{}))
+            }
+        
+    }
+    else {
     //No to chills
-        case "no":
         context.succeed(generateResponse(buildSpeechletResponse("So you don't have the chills.", false),{}))
-        break;
         }
     break;
 

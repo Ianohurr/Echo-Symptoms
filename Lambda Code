@@ -16,7 +16,7 @@ exports.handler = (event, context) => {
         console.log(`LAUNCH REQUEST`)
         context.succeed (
             generateResponse(
-                buildSpeechletResponse("What are some of your symptoms", false),
+                buildSpeechletResponse("Okay. Let's try and figure out what's going on. I'm going to go through some popular symptoms, and you can answer yes if you have that symptom, or no if you don't. Are you experiencing any chills?", false),
                 {}
                 )
                 )
@@ -26,13 +26,26 @@ exports.handler = (event, context) => {
         // Intent Request
         console.log(`INTENT REQUEST`)
         switch(event.request.intent.name) {
-         case "headPain":
+         //Yes to chills
+         case "yes":
             context.succeed(
                   generateResponse(
-                    buildSpeechletResponse("You may have a concussion", false),
+                    buildSpeechletResponse("So you have the chills.", false),
                     {}
                   )
 )
+            break;
+        //No to chills
+        case "no":
+            context.succeed(
+                  generateResponse(
+                    buildSpeechletResponse("So you don't have the chills.", false),
+                    {}
+                  )
+)
+            break;
+        
+            
         }
         break;
     
